@@ -1,0 +1,17 @@
+#app {
+  background-color: white;
+  margin: 0 auto;
+  padding: 0;
+  display: inline-block;
+}
+span {
+  display: inline-block;
+  padding: 2px;
+}
+
+.center {
+  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
