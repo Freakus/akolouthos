@@ -1,6 +1,6 @@
-# akaluthos
+# Akolouthos
 
-This template should help get you started developing with Vue 3 in Vite.
+Tools for working with Akolouthos orthography created by Antiheat.
 
 ## Recommended IDE Setup
 
