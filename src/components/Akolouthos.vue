@@ -16,6 +16,7 @@
 
 <script>
 import { objectToString } from '@vue/shared';
+import glyphs from '/src/data/paths.json'
 
 export default {
   // Properties returned from data() become reactive state
@@ -34,43 +35,13 @@ export default {
       rows: 1,
       width: 600,
       // Message to be transliterated.
-      text: "The music draws us but it wont save you until you add yourself to its song",
-      // SVG paths for the various glyphs.
-      glyphs: {
-        "a": "M 1 0 L 2 1 L 2 2 L 1 1 L 0 2 L 0 1 Z",
-        "b": "M 0 0 L 2 0 L 1 1 L 2 2 L 0 2 Z",
-        "c": "M 0 1 L 1 0 L 2 0 L 1 1 L 2 2 L 1 2 Z",
-        "d": "M 0 0 L 1 0 L 2 1 L 1 2 L 0 2 Z",
-        "e": "M 0 0 L 2 0 L 2 1 L 1 2 L 0 2 Z",
-        "f": "M 0 0 L 2 0 L 2 1 L 1 1 L 1 2 L 0 2 Z",
-        "g": "M 1 0 L 2 0 L 2 2 L 0 2 L 1 1 Z",
-        "h": "M 0 0 L 1 1 L 2 0 L 2 2 L 1 1 L 0 2 Z",
-        "i": "M 0 0 L 1 0 L 1 2 L 0 2 Z",
-        "j": "M 1 0 L 2 0 L 2 2 L 0 2 L 0 1 L 1 1 Z",
-        "k": "M 1 0 L 2 0 L 1 1 L 2 2 L 0 2 L 0 1 Z",
-        "l": "M 0 0 L 1 0 L 1 1 L 2 2 L 0 2 L 0 1 Z",
-        "m": "M 0 0 L 2 0 L 2 2 L 1 1 L 0 2 Z",
-        "n": "M 1 0 L 2 0 L 2 1 L 1 1 L 0 2 L 0 1 Z",
-        "o": "M 0 0 L 2 0 L 2 2 L 0 2 Z",
-        "p": "M 0 0 L 2 0 L 1 1 L 1 2 L 0 2 Z",
-        "q": "M 0 0 L 2 0 L 2 1 L 1 1 L 2 2 L 0 2 Z",
-        "r": "M 0 0 L 2 0 L 2 1 L 1 2 L 0 2 L 1 1 Z",
-        "s": "M 1 0 L 2 1 L 1 2 L 0 2 L 0 1 Z",
-        "t": "M 0 0 L 1 0 L 2 1 L 1 2 L 0 1 Z",
-        "u": "M 0 0 L 2 0 L 2 2 L 1 2 L 0 1 Z",
-        "v": "M 0 0 L 1 1 L 2 0 L 2 1 L 1 2 L 0 1 Z",
-        "w": "M 0 0 L 2 0 L 2 1 L 1 2 L 0 1 Z",
-        "x": "M 1 0 L 2 1 L 1 2 L 0 1 Z",
-        "y": "M 1 0 L 2 1 L 2 2 L 0 2 L 0 1 Z",
-        "z": "M 1 0 L 2 0 L 2 1 L 1 2 L 0 2 L 0 1 Z",
-        " ": "M 0 1 L 2 1 L 2 2 L 0 2 Z",
-      }
+      text: "The music draws us but it wont save you until you add yourself to its song"
     }
   },
 
   computed: {
     knownGlyphs() {
-      return Object.keys(this.glyphs).join("");
+      return Object.keys(glyphs).join("");
     },
     regexValid() {
         return new RegExp(`[${this.knownGlyphs}]`, "gm");
@@ -140,13 +111,13 @@ export default {
     },
 
     generateSymbol(character) {
-      if (this.glyphs[character])
-        return `<symbol id="${character}" width="2" height="2" viewBox="0 0 2 2"><path d="${this.glyphs[character]}"/></symbol>`
+      if (glyphs[character])
+        return `<symbol id="${glyphs[character]["name"]}" width="2" height="2" viewBox="0 0 2 2"><path d="${glyphs[character]["path"]}"/></symbol>`
       else
         return ""
     },
     mapCharacterToSVGUse(character, index) {
-      return `<use href="#${character}" x="${Math.floor(index / this.rows) * 2}" y="${(index % this.rows) * 2}" style="opacity:1.0" fill="${this.color}" />\n`;
+      return `<use href="#${glyphs[character]["name"]}" x="${Math.floor(index / this.rows) * 2}" y="${(index % this.rows) * 2}" style="opacity:1.0" fill="${this.color}" />\n`;
     },
 
     saveFile() {
