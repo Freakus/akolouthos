@@ -41,13 +41,13 @@ export default {
 
   computed: {
     knownGlyphs() {
-      return Object.keys(glyphs).join("");
+      return Object.keys(glyphs).join("").replace(/[.*+?^${}()|[\]\\-]/g, "\\$&").replaceAll("\n", "\\n");
     },
     regexValid() {
-        return new RegExp(`[${this.knownGlyphs}]`, "gm");
+      return new RegExp(`[${this.knownGlyphs}]`, "g");
     },
     regexInvalid() {
-        return new RegExp(`[^${this.knownGlyphs}]`, "gm");
+      return new RegExp(`[^${this.knownGlyphs}]`, "g");
     },
     // Returns true if there are unmapped characters in the message.
     warning() {
