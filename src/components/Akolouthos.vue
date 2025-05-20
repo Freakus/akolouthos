@@ -6,11 +6,12 @@
     <span>
         <div><button @click="saveFile(false)" style="width:100%;">Save</button></div>
         <div><button @click="saveFile(true)" style="width:100%;">Save (No SVG Symbols)</button></div>
+        <div><button @click="properRows" style="width:100%;">Proper (2^n) rows</button></div>
         <div><button @click="squareRows" style="width:100%;">Square(ish)</button></div>
         <div><label for="rows" style="float:left;">Rows:</label><input id="rows" type="number" v-model="rows" min="1" max="999999999" size="8" style="float:right;" /></div>
         <div><label for="scale" style="float:left;">Width:</label><input id="scale" type="number" v-model="width" min="1" max="999999999" size="8" style="float:right;" /></div>
     </span>
-    <textarea v-model="text" rows="7" cols="100">{{ text }}</textarea>
+    <textarea v-model="text" rows="8" cols="100">{{ text }}</textarea>
   </div>
   <div :style="SVGStyle" v-html="SVG"></div>
 </template>
@@ -121,6 +122,10 @@ export default {
       this.rows = Math.ceil(Math.sqrt(this.length));
     },
 
+    properRows() {
+      this.rows = Math.pow(2, Math.ceil(Math.log(Math.ceil(Math.sqrt(this.length))) / Math.log(2)));
+    },
+
     generateSymbol(character) {
       if (glyphs[character])
         return `<symbol id="${glyphs[character]["name"]}" width="2" height="2" viewBox="0 0 2 2">${this.generatePath(character)}</symbol>\n`
@@ -154,8 +159,8 @@ export default {
   },
 
   beforeMount(){
-    this.squareRows();
-    this.width = this.rows * 100;
+    this.properRows();
+    this.width = this.cols * 100;
   }
 }
 </script>
